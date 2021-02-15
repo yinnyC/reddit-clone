@@ -26,3 +26,15 @@ exports.postDetails = (req, res, next) => {
       throw err.message
     })
 }
+
+exports.getPostsBySubreddit  = (req,res,next) =>{
+  console.log(req.params.subreddit)
+  Post.find({subreddit:req.params.subreddit}).lean()
+  .then((posts)=>{
+    console.log(posts)
+    res.render("posts/posts-index",{ posts })
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+}

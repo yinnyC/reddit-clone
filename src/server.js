@@ -8,6 +8,7 @@ const hbs = require('express-handlebars');
 
 const router = require('./routes/main')
 const postRoutes = require('./routes/posts')
+const subredditRoutes = require('./routes/subreddit')
 
 // Set App Variable
 const app = express()
@@ -32,6 +33,7 @@ app.use(expressValidator());
 // Routes
 app.use(router)
 app.use('/posts', postRoutes)
+app.use('/n', subredditRoutes)
 
 // Set db
 require('./data/reddit-db');
