@@ -10,8 +10,13 @@ const router = require('./routes/main')
 const postRoutes = require('./routes/posts')
 const subredditRoutes = require('./routes/subreddit')
 const commentRoutes = require('./routes/comment')
+const authRoutes = require('./routes/auth')
 // Set App Variable
+var cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 const app = express()
+
+app.use(cookieParser());
 
 app.use(express.static('public'));
 
@@ -35,6 +40,7 @@ app.use(router)
 app.use('/posts', postRoutes)
 app.use('/n', subredditRoutes)
 app.use(commentRoutes)
+app.use(authRoutes)
 // Set db
 require('./data/reddit-db');
 
