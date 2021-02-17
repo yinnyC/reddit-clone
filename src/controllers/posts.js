@@ -31,9 +31,10 @@ exports.newPost = (req, res, next) => {
 }
 
 exports.postDetails = (req, res, next) => {
-  Post.findById(req.params.id).lean().populate({path:'comments', populate: {path: 'author'}}).populate('author')
+  var currentUser = req.user;
+  Post.findById(req.params.id).populate('comments').lean()
     .then(post => {
-      res.render('posts/posts-show', { post })
+      res.render('posts/posts-show', { post,currentUser })
     })
     .catch(err => {
       throw err.message
@@ -41,11 +42,11 @@ exports.postDetails = (req, res, next) => {
 }
 
 exports.getPostsBySubreddit  = (req,res,next) =>{
-  console.log(req.params.subreddit)
-  Post.find({subreddit:req.params.subreddit}).lean().populate('author')
+  var currentUser = req.user;
+  Post.find({ subreddit: req.params.subreddit }).lean()
   .then((posts)=>{
     console.log(posts)
-    res.render("posts/posts-index",{ posts })
+    res.render("posts/posts-index",{ posts, currentUser })
   })
   .catch((err)=>{
     console.log(err)
