@@ -8,7 +8,6 @@ exports.signupForm = (req, res, next)=>{
 exports.signupUser = (req, res, next)=>{
    // Create User and JWT
    const user = new User(req.body);
-
   user
   .save()
   .then(user => {
@@ -20,4 +19,9 @@ exports.signupUser = (req, res, next)=>{
     console.log(err.message);
     return res.status(400).send({ err: err });
   })
+}
+
+exports.logout = (req, res, next)=>{
+    res.clearCookie('nToken');
+    res.redirect('/');
 }
