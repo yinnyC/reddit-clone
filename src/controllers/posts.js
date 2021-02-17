@@ -1,19 +1,20 @@
 const Post = require('../models/post');
 
 exports.newPostForm = (req, res, next) => {
-  return res.render('posts/posts-new')
+  var currentUser = req.user;
+  return res.render('posts/posts-new',{currentUser})
 }
 
 exports.newPost = (req, res, next) => {
-  const post = new Post(req.body)
-  // SAVE INSTANCE OF POST MODEL TO DB
-  post.save()
-    .then(result => {
-      return res.redirect('/')
-    })
-    .catch(err => {
-      throw err.message
-    })
+  if (req.user) {
+    var post = new Post(req.body);
+
+    post.save(function(err, post) {
+      return res.redirect(`/`);
+    });
+  } else {
+    return res.status(401); // UNAUTHORIZED
+  }
 }
 
 

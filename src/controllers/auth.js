@@ -2,12 +2,13 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken');
 
 exports.signupForm = (req, res, next)=>{
-  return res.render('auth/sign-up')
+  var currentUser = req.user;
+  return res.render('auth/sign-up',{currentUser})
 }
 
 exports.signupUser = (req, res, next)=>{
    // Create User and JWT
-   const user = new User(req.body);
+  const user = new User(req.body);
   user
   .save()
   .then(user => {
@@ -27,7 +28,8 @@ exports.logout = (req, res, next)=>{
 }
 
 exports.loginForm = (req, res, next)=>{
-  res.render('auth/login')
+  var currentUser = req.user;
+  res.render('auth/login',{currentUser})
 }
 
 exports.login = (req, res, next) =>{

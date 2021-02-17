@@ -29,15 +29,20 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+          {{#if currentUser}}
           <li class="nav-item">
             <a class="nav-link" href="/posts/new">New Post</a>
           </li>
+          {{/if}}
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          <li class="mr-3"><a href="/logout">Logout</a></li>
-          <li class="mr-3"><a href="/login">Login</a></li>
-          <li class="mr-1"><a href="/sign-up">Sign Up</a></li>
+          {{#if currentUser}}
+          <li><a class="mr-3" href="/logout">Logout</a></li>
+          {{else}}
+          <li><a class="mr-4" href="/login">Login</a></li>
+          <li><a class="mr-3" href="/sign-up">Sign Up</a></li>
+          {{/if}}
         </ul>
       </div>
     </nav>
