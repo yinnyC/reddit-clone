@@ -8,9 +8,11 @@ exports.newPostForm = (req, res, next) => {
 
 exports.newPost = (req, res, next) => {
   if (req.user) {
-    data = req.body
-    data['author'] = req.user._id
-    var post = new Post(data);
+    var post = new Post(req.body);
+    post.author = req.user._id;
+    post.upVotes = [];
+    post.downVotes = [];
+    post.voteScore = 0
     post
     .save()
     .then(post => {
@@ -51,4 +53,23 @@ exports.getPostsBySubreddit  = (req,res,next) =>{
   .catch((err)=>{
     console.log(err)
   })
+}
+
+exports.voteUp = (req, res, next) =>{
+  Post.findById(req.params.id).exec(function(err, post) {
+    post.upVotes.push(req.user._id);
+    post.voteScore = post.voteScore + 1;
+    post.save();
+
+    res.status(200);
+  });
+}
+
+exports.voteDown = (req, res, next) =>{
+  Post.findById(req.params.id).exec(function(err, post) {
+    post.downVotes.push(req.user._id);
+    post.voteScore = post.voteScore - 1;
+    post.save();
+    res.status(200);
+  });
 }
