@@ -6,19 +6,23 @@ const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const hbs = require('express-handlebars');
 
+// Import Routes
 const router = require('./routes/main')
 const postRoutes = require('./routes/posts')
 const subredditRoutes = require('./routes/subreddit')
 const commentRoutes = require('./routes/comment')
 const authRoutes = require('./routes/auth')
+const repliesRoutes = require('./routes/replies')
+
 // Set App Variable
-var cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
 const app = express()
 
+var cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 app.use(cookieParser());
+ // enables supplying static files
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.static('public'));
 var checkAuth = (req, res, next) => {
   console.log("Checking authentication");
   if (typeof req.cookies.nToken === "undefined" || req.cookies.nToken === null) {
@@ -54,6 +58,7 @@ app.use('/posts', postRoutes)
 app.use('/n', subredditRoutes)
 app.use(commentRoutes)
 app.use(authRoutes)
+app.use(repliesRoutes)
 // Set db
 require('./data/reddit-db');
 

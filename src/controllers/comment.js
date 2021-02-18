@@ -3,7 +3,7 @@ const Comment = require('../models/comment');
 
 exports.newComment = (req,res,next)=>{
   if (req.user) {
-    const data =  req.body 
+  const data =  req.body 
   data['author'] = req.user._id
   const comment = new Comment(data);
   // SAVE INSTANCE OF Comment MODEL TO DB
